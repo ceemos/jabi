@@ -77,7 +77,8 @@ public class AboutAction extends AbstractAction {
 						+ "&nbsp;Markus Knauß&nbsp;<br>"
 						+ "&nbsp;Daniel Kulesz&nbsp;<br>"
 						+ "&nbsp;Holger Röder&nbsp;<br>"
-						+ "&nbsp;Matthias Wetzel&nbsp;<br>&nbsp;</center></html>");
+						+ "&nbsp;Matthias Wetzel&nbsp;<br>"
+                                                + "&nbsp;Marcel Schneider&nbsp;<br></center></html>");
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 3;

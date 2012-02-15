@@ -53,6 +53,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -443,9 +445,25 @@ public class MainWindow extends JFrame implements Observer {
 	 * Show selection status (i.e. number of selected entries) in the status bar
 	 */
 	private void showSelectionStatus() {
-		String message = "Status";
+		String message = "";
 		/* Create some useful information to show in the status bar */
 
+                HashMap<String, Integer> typen = new HashMap<>();
+                for (IEntry i : getSelectedEntries()) {
+                    int n = typen.containsKey(i.getType()) ? typen.get(i.getType()) : 0;
+                    n++;
+                    typen.put(i.getType(), n);
+                }
+                if (!typen.isEmpty()) {
+                    for (Map.Entry<String, Integer> e : typen.entrySet()) {
+                        if (e.getValue() == 1) {
+                            message += ", " + e.getValue() + " " + e.getKey();
+                        } else {
+                            message += ", " + e.getValue() + " " + e.getKey() + "s";
+                        }
+                    } 
+                    message = message.substring(2) + " ausgewählt";
+                }
 		/* Set status message */
 		setStatusBarMessage(message);
 	}

@@ -82,5 +82,14 @@ public class CreateSampleEntriesAction extends AbstractAction {
 		b1.creationDate(Calendar.getInstance().getTime());
 		b1.changeDate(Calendar.getInstance().getTime());
 		Model.instance.addEntry(b1);
+                
+                Book b2 = new Book("ludewig2010",
+				"Software Engineering");
+		b2.setAuthor("Jochen Ludewig, Horst Lichter");
+		b2.setPublisher("dpunkt.verlag");
+		b2.setYear("2010");
+		b2.creationDate(Calendar.getInstance().getTime());
+		b2.changeDate(Calendar.getInstance().getTime());
+		Model.instance.addEntry(b2);
 	}
 }
