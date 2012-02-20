@@ -26,6 +26,7 @@ import jabi.extensions.hello.HelloExtension;
 import jabi.extensions.statistics.StatisticsExtension;
 import jabi.model.Article;
 import jabi.model.Book;
+import jabi.model.Inproceedings;
 import jabi.model.reflect.EntryTypeManager;
 import jabi.ui.MainWindow;
 import jabi.ui.actions.AboutAction;
@@ -83,6 +84,7 @@ public class Jabi {
 		 */
 		EntryTypeManager.instance.registerEntryType(Book.class);
 		EntryTypeManager.instance.registerEntryType(Article.class);
+                EntryTypeManager.instance.registerEntryType(Inproceedings.class);
 		
 		/* Configure the filters that are available to export the
 		 * managed references to other formats.
