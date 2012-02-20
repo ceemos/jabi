@@ -18,6 +18,9 @@
  */
 package jabi.model;
 
+import jabi.model.reflect.EntryTypeManager;
+import java.util.ArrayList;
+
 
 /**
  * Provides bibligraphy management for books. 
@@ -142,7 +145,20 @@ public class Book extends AbstractEntry {
 	 */
 	@Override
 	public ValidationResult validate() {
-		return new ValidationResult(true, null);
+            ArrayList<ValidationEntry> ves = new ArrayList<>();
+            boolean result = true, editor, author;
+            result = validationHelper("publisher", getPublisher(), "Ein Verlag muss gesetzt werden.", ves)
+                   & validationHelper("title", getTitle(), "Ein Titel muss gesetzt werden.", ves)
+                   & validationHelper("year", getYear(), "Ein Jahr muss gesetzt werden.", ves)
+                   & validateYear(ves, getYear())
+                   & ((author = validationHelper("author", getAuthor(), "Ein Autor (oder Herausgeber) muss gesetzt werden.", ves))
+                    | (editor = validationHelper("editor", getEditor(), "Ein Herausgeber (oder Autor) muss gesetzt werden.", ves)));
+            
+            if (editor && author) {
+                ves.add(new ValidationEntry(EntryTypeManager.instance.getEntryType(this).getProperty("editor").getDisplayName(), "Es darf nur Herausgaber oder Autor angegeben werden."));
+            }
+            
+            return new ValidationResult(result, ves);
 	}
 
 }

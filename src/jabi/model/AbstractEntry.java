@@ -18,10 +18,9 @@
  */
 package jabi.model;
 
+import jabi.model.reflect.EntryTypeManager;
 import java.lang.reflect.Method;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Default implementation of {@link IEntry} that provides
@@ -180,5 +179,38 @@ public abstract class AbstractEntry implements IEntry {
 	public final void changeDate(Date lastChangeDate) {
 		this.changeDate = lastChangeDate;
 	}
+
+        /**
+         * Tests wether a Property is set.
+         * @param property name of the Property
+         * @param value value to test
+         * @param error String to had to the User
+         * @param ves List to Store the result in.
+         * @return  true, if the froperty is set. If false, a ValidationEntry is added.
+         */
+    protected boolean validationHelper(String property, String value, String error, List<ValidationEntry> ves) {
+        if (value == null || "".equals(value)) {
+            ves.add(new ValidationEntry(EntryTypeManager.instance.getEntryType(this).getProperty(property).getDisplayName(), error));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Tests a Year given as String for validity.
+     * @param ves List to Store Results in
+     * @param value The Year to check
+     * @return true if valid.
+     */
+    protected boolean validateYear(ArrayList<ValidationEntry> ves, String value) {
+        try {
+            // it seems there is no better way than trying if a number ist numeric.
+            int year = Integer.parseInt(value);
+        } catch (NumberFormatException nfe) {
+            ves.add(new ValidationEntry(EntryTypeManager.instance.getEntryType(this).getProperty("year").getDisplayName(), "Jahr muss numerisch sein"));
+            return false;
+        }
+        return true;
+    }
 	
 }

@@ -18,6 +18,10 @@
  */
 package jabi.model;
 
+import jabi.model.reflect.EntryTypeManager;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Provides bibliographic management for articles. 
@@ -143,7 +147,14 @@ public class Article extends AbstractEntry {
 	 */
 	@Override
 	public ValidationResult validate() {
-		return new ValidationResult(true, null);
+            ArrayList<ValidationEntry> ves = new ArrayList<>();
+            boolean result = true;
+            result = validationHelper("author", getAuthor(), "Ein Autor muss gesetzt werden.", ves)
+                   & validationHelper("title", getTitle(), "Ein Titel muss gesetzt werden.", ves)
+                   & validationHelper("journal", getJournal(), "Eine Zeitschrift muss gesetzt werden.", ves)
+                   & validationHelper("year", getYear(), "Ein Jahr muss gesetzt werden.", ves)
+                   & validateYear(ves, getYear());
+            return new ValidationResult(result, ves);
 	}
 
 }
