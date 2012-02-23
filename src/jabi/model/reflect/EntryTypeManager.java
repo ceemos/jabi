@@ -19,7 +19,6 @@
 package jabi.model.reflect;
 
 import jabi.model.IEntry;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -184,9 +184,9 @@ public abstract class AbstractEntry implements IEntry {
          * Tests wether a Property is set.
          * @param property name of the Property
          * @param value value to test
-         * @param error String to had to the User
+         * @param error String to hand to the User
          * @param ves List to Store the result in.
-         * @return  true, if the froperty is set. If false, a ValidationEntry is added.
+         * @return  true, if the property is set. If false, a ValidationEntry is added.
          */
     protected boolean validationHelper(String property, String value, String error, List<ValidationEntry> ves) {
         if (value == null || "".equals(value)) {

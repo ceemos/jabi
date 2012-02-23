@@ -20,9 +20,16 @@ package jabi.extensions.statistics;
 
 import jabi.extensions.AbstractExtension;
 import jabi.extensions.ExtensionManager;
+import jabi.model.IEntry;
 import jabi.model.Model;
 
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -47,6 +54,35 @@ public class StatisticsExtension extends AbstractExtension {
 		StatisticsDialog.instance.addStatistic("Anzahl Erweiterungen", ExtensionManager.instance.getExtensions().length);
 		StatisticsDialog.instance.addStatistic("Ungespeicherte Änderungen", Model.instance.isDirty());
 		StatisticsDialog.instance.addStatistic("7er Blöcke an Einträgen", Model.instance.getEntries().size() / 7.);
+                
+                
+                // number of authors
+                Map<String, List<String>> authors = new HashMap<>();
+                for (IEntry e : Model.instance.getEntries()) {
+                    String a = e.getValue("Author");
+                    if (a == null) continue;
+                    String[] parts = a.split("( and )|(, ?)");
+                    for (String name : parts) {
+                        name = name.trim();
+                        if (authors.containsKey(name)) {
+                            authors.get(name).add (e.getId());
+                        } else {
+                            authors.put(name, new ArrayList<String>());
+                            authors.get(name).add(e.getId());
+                        }
+                    }
+                }
+                
+                //CLI output:
+                System.out.println("Autoren:");
+                for (Map.Entry<String, List<String>> l : authors.entrySet()) {
+                    System.out.print(l.getKey() + ": ");
+                    for (String id : l.getValue()) {
+                        System.out.print(id + " ");
+                    }
+                    System.out.println("");
+                }
+                StatisticsDialog.instance.addStatistic("Anzahl Autoren", authors.size());
 		// Show the dialog
 		
 		StatisticsDialog.instance.setVisible(true);
